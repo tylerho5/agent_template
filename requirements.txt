@@ -1,6 +1,9 @@
+langchain
 langchain-core
 langchain-openai
 langgraph
+langgraph-checkpoint-redis
 fastapi
-uvicorn
+uvicorn[standard]
+pydantic-settings
 python-dotenv
