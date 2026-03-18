@@ -5,7 +5,6 @@ from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from pydantic import SecretStr
 
-from app.agent import load_prompt
 from app.agents import REGISTRY
 from app.config import get_settings
 
@@ -30,7 +29,7 @@ def get_dispatch_tool():
     )
 
     @tool(description=tool_description)
-    def task(agent_name: AgentName, description: str) -> str:
+    def task(agent_name: AgentName, description: str) -> str:  # type: ignore[valid-type]
         """Delegate a task to a specialized subagent."""
         config = REGISTRY[agent_name.value]
         settings = get_settings()
@@ -45,7 +44,7 @@ def get_dispatch_tool():
         subagent = create_agent(
             llm,
             tools=config.tools,
-            system_prompt=load_prompt(config.prompt_file),
+            system_prompt=config.prompt,
         )
 
         result = subagent.invoke(
