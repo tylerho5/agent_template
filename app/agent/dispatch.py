@@ -26,17 +26,17 @@ def get_dispatch_tool():
         f"- {cfg.name}: {cfg.description}" for cfg in REGISTRY.values()
     )
 
-    @tool
+    tool_description = (
+        "Delegate a task to a specialized subagent.\n\n"
+        f"Available agents:\n{agent_descriptions}\n\n"
+        "Args:\n"
+        "    agent_name: Which agent to delegate to.\n"
+        "    description: Detailed description of the task for the subagent."
+    )
+
+    @tool(description=tool_description)
     def task(agent_name: AgentName, description: str) -> str:
-        f"""Delegate a task to a specialized subagent.
-
-Available agents:
-{agent_descriptions}
-
-Args:
-    agent_name: Which agent to delegate to.
-    description: Detailed description of the task for the subagent.
-"""
+        """Delegate a task to a specialized subagent."""
         config = REGISTRY[agent_name.value]
         settings = get_settings()
 
