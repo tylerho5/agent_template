@@ -1,6 +1,6 @@
 # AI Agent Template
 
-A hackathon-ready Python template for building AI agents with LangGraph and OpenRouter.
+A complete Python template for building AI agents with LangGraph and OpenRouter.
 
 ## Features
 
