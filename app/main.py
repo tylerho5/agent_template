@@ -18,12 +18,13 @@ def create_app() -> FastAPI:
 
     app = FastAPI(title="AI Agent Template")
 
-    # Middleware (order matters — outermost first)
+    # Middleware (last added = outermost = first to receive request)
     app.add_middleware(ErrorHandlerMiddleware)
+    origins = settings.cors_origins.split(",")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins.split(","),
-        allow_credentials=True,
+        allow_origins=origins,
+        allow_credentials=origins != ["*"],
         allow_methods=["*"],
         allow_headers=["*"],
     )
