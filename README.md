@@ -1,6 +1,6 @@
 # AI Agent Template
 
-A hackathon-ready Python template for building AI agents with LangGraph and OpenRouter.
+A complete Python template for building AI agents with LangGraph and OpenRouter.
 
 ## Features
 
@@ -51,9 +51,7 @@ app/
 │   ├── web_search.py    # Example tool
 │   └── weather.py       # Example tool
 └── prompts/
-    ├── supervisor.txt   # Supervisor system prompt
-    ├── researcher.txt   # Researcher subagent prompt
-    └── writer.txt       # Writer subagent prompt
+    └── agent.md         # Main agent system prompt
 ```
 
 ## Usage
@@ -109,17 +107,21 @@ It's auto-discovered. No imports needed elsewhere.
 
 ## Adding a Subagent
 
-1. Create a prompt in `app/prompts/my_agent.txt`
-2. Create a config in `app/agents/my_agent.py`:
+Create a config in `app/agents/my_agent.py`:
 
 ```python
 from app.agents._base import AgentConfig
 from app.tools.my_tool import my_tool
 
+PROMPT = """\
+You are a specialist assistant. Your job is to ...
+
+Use your tools to accomplish the task. Be concise."""
+
 config = AgentConfig(
     name="my_agent",
     description="What this agent does (the supervisor reads this)",
-    prompt_file="my_agent",
+    prompt=PROMPT,
     tools=[my_tool],
 )
 ```
