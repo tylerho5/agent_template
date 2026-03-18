@@ -9,7 +9,12 @@ def get_checkpointer() -> BaseCheckpointSaver:
     settings = get_settings()
 
     if settings.memory_backend == "redis":
-        from langgraph.checkpoint.redis import RedisSaver
+        try:
+            from langgraph.checkpoint.redis import RedisSaver
+        except ImportError as exc:
+            raise RuntimeError(
+                "MEMORY_BACKEND=redis requires 'langgraph-checkpoint-redis' to be installed."
+            ) from exc
 
         checkpointer = RedisSaver.from_conn_string(settings.redis_url)
         checkpointer.setup()

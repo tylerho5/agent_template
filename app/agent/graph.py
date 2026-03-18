@@ -29,12 +29,12 @@ def build_supervisor():
 
     try:
         from app.agent.dispatch import get_dispatch_tool
-
+    except ImportError:
+        pass
+    else:
         dispatch = get_dispatch_tool()
         if dispatch is not None:
             tools = [*tools, dispatch]
-    except ImportError:
-        pass
 
     agent = create_agent(
         llm,
