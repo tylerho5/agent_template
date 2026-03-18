@@ -33,7 +33,7 @@ def build_supervisor():
     agent = create_agent(
         llm,
         tools=tools,
-        system_prompt=load_prompt("supervisor"),
+        system_prompt=load_prompt("agent"),
         checkpointer=get_checkpointer(),
         store=get_store(),
     )
