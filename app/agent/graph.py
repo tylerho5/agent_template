@@ -1,17 +1,11 @@
-from pathlib import Path
-
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from pydantic import SecretStr
 
+from app.agent import load_prompt
 from app.config import get_settings
 from app.tools import get_tools
 from app.agent.memory import get_checkpointer, get_store
-
-
-def _load_prompt(name: str) -> str:
-    path = Path(__file__).resolve().parent.parent / "prompts" / f"{name}.txt"
-    return path.read_text().strip()
 
 
 def build_supervisor():
@@ -24,7 +18,7 @@ def build_supervisor():
         model=settings.openrouter_model,
     )
 
-    # Collect direct tools + dispatch tool (added in Plan 4)
+    # Collect direct tools + dispatch tool
     tools = get_tools()
 
     try:
@@ -39,7 +33,7 @@ def build_supervisor():
     agent = create_agent(
         llm,
         tools=tools,
-        system_prompt=_load_prompt("supervisor"),
+        system_prompt=load_prompt("supervisor"),
         checkpointer=get_checkpointer(),
         store=get_store(),
     )

@@ -1,18 +1,13 @@
 from enum import Enum
-from pathlib import Path
 
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from pydantic import SecretStr
 
+from app.agent import load_prompt
 from app.agents import REGISTRY
 from app.config import get_settings
-
-
-def _load_prompt(name: str) -> str:
-    path = Path(__file__).resolve().parent.parent / "prompts" / f"{name}.txt"
-    return path.read_text().strip()
 
 
 def get_dispatch_tool():
@@ -50,7 +45,7 @@ def get_dispatch_tool():
         subagent = create_agent(
             llm,
             tools=config.tools,
-            system_prompt=_load_prompt(config.prompt_file.replace(".txt", "")),
+            system_prompt=load_prompt(config.prompt_file),
         )
 
         result = subagent.invoke(
