@@ -51,6 +51,9 @@ def get_dispatch_tool():
         result = subagent.invoke(
             {"messages": [{"role": "user", "content": description}]}
         )
-        return result["messages"][-1].content
+        messages = result.get("messages", [])
+        if not messages:
+            return "Subagent returned no response."
+        return messages[-1].content
 
     return task
