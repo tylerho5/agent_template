@@ -4,6 +4,7 @@ import uuid
 
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
+from langchain_core.runnables import RunnableConfig
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
@@ -45,7 +46,7 @@ async def health():
 async def query(request: QueryRequest):
     agent = _get_agent()
     thread_id = request.thread_id or str(uuid.uuid4())
-    config = {"configurable": {"thread_id": thread_id}}
+    config: RunnableConfig = {"configurable": {"thread_id": thread_id}}
 
     result = agent.invoke(
         {"messages": [{"role": "user", "content": request.text}]},
@@ -60,7 +61,7 @@ async def query(request: QueryRequest):
 async def query_stream(request: QueryRequest):
     agent = _get_agent()
     thread_id = request.thread_id or str(uuid.uuid4())
-    config = {"configurable": {"thread_id": thread_id}}
+    config: RunnableConfig = {"configurable": {"thread_id": thread_id}}
 
     async def event_generator():
         # Send thread_id as first event

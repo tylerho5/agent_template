@@ -16,7 +16,7 @@ def get_checkpointer() -> BaseCheckpointSaver:
                 "MEMORY_BACKEND=redis requires 'langgraph-checkpoint-redis' to be installed."
             ) from exc
 
-        checkpointer = RedisSaver.from_conn_string(settings.redis_url)
+        checkpointer = RedisSaver(redis_url=settings.redis_url)
         checkpointer.setup()
         return checkpointer
 
