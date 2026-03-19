@@ -5,7 +5,7 @@ from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from pydantic import SecretStr
 
-from app.agents import REGISTRY
+from app.subagents import REGISTRY
 from app.config import get_settings
 
 

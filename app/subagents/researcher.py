@@ -1,4 +1,4 @@
-from app.agents._base import AgentConfig
+from app.subagents._base import AgentConfig
 from app.tools.web_search import web_search
 
 PROMPT = """\

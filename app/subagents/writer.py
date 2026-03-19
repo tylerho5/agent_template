@@ -1,4 +1,4 @@
-from app.agents._base import AgentConfig
+from app.subagents._base import AgentConfig
 
 PROMPT = """\
 You are a writing assistant. Your job is to produce clear, well-structured \
